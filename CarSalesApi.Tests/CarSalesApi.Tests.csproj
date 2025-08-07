@@ -20,4 +20,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CarSalesApi.Application\CarSalesApi.Application.csproj" />
+    <ProjectReference Include="..\CarSalesApi.Infrastructure\CarSalesApi.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
