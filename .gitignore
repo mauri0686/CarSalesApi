@@ -1,0 +1,8 @@
+/obj/
+/bin/
+*.user *.suo
+packages/
+*.log *.tmp
+.vs/ .vscode/
+*.dll *.exe
+appsettings.json
