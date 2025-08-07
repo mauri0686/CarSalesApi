@@ -8,12 +8,21 @@ namespace CarSalesApi.Application
     /// </summary>
     public class SaleService(ISaleRepository repository) : ISaleService
     {
+        private static readonly int[] ValidDistributionCenterIds = [1, 2, 3, 4];
+
         /// <summary>
         /// Creates a sale record based on the provided sale request details.
         /// </summary>
         /// <param name="request">The request containing details such as the car type and distribution center ID for the sale.</param>
         public void CreateSale(CreateSaleRequest request)
         {
+            // Validación de parámetros
+            if (!Enum.IsDefined(typeof(CarType), request.CarType))
+                throw new ArgumentException("Tipo de vehículo inválido.");
+
+            if (!ValidDistributionCenterIds.Contains(request.DistributionCenterId))
+                throw new ArgumentException("Centro de distribución inválido.");
+
             var car = new CarModel(request.CarType);
             var sale = new Sale
             {
@@ -26,11 +35,9 @@ namespace CarSalesApi.Application
             repository.AddSale(sale);
         }
 
-
         /// <summary>
         /// Calculates the total sales volume across all distribution centers.
         /// </summary>
-        /// <returns>The total sales volume as a decimal value.</returns>
         public decimal GetTotalSalesVolume()
         {
             var sales = repository.GetAllSales();
@@ -40,10 +47,11 @@ namespace CarSalesApi.Application
         /// <summary>
         /// Calculates the total sales volume for a specific distribution center.
         /// </summary>
-        /// <param name="centerId">The unique identifier of the distribution center.</param>
-        /// <returns>The total sales volume as a decimal value for the specified distribution center.</returns>
         public decimal GetSalesVolumeByCenter(int centerId)
         {
+            if (!ValidDistributionCenterIds.Contains(centerId))
+                throw new ArgumentException("Centro de distribución inválido.");
+
             var sales = repository.GetSalesByCenter(centerId);
             return sales.Sum(s => s.SalePrice);
         }
@@ -51,16 +59,13 @@ namespace CarSalesApi.Application
         /// <summary>
         /// Calculates the percentage of car sales by car type for each distribution center.
         /// </summary>
-        /// <returns>A dictionary where the key is the distribution center ID, and the value is another dictionary summarizing the percentage of sales for each car type within the center.</returns>
         public Dictionary<int, Dictionary<CarType, double>> GetPercentageByCenter()
         {
             var allSales = repository.GetAllSales();
             var totalSales = allSales.Count();
 
             if (totalSales == 0)
-            {
                 return new Dictionary<int, Dictionary<CarType, double>>();
-            }
 
             var salesByCenter = allSales.GroupBy(s => s.DistributionCenterId);
             var result = new Dictionary<int, Dictionary<CarType, double>>();
@@ -69,8 +74,13 @@ namespace CarSalesApi.Application
             {
                 var centerId = centerGroup.Key;
                 var salesInCenter = centerGroup.ToList();
-                var salesByType = salesInCenter.GroupBy(s => s.Car.Type)
-                    .ToDictionary(g => g.Key, g => (double)g.Count() / totalSales * 100);
+                var salesByType = salesInCenter
+                    .GroupBy(s => s.Car.Type)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => (double)g.Count() / totalSales * 100
+                    );
+
                 result[centerId] = salesByType;
             }
 

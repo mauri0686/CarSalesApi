@@ -1,3 +1,4 @@
+using CarSalesApi.Api;
 using CarSalesApi.Application;
 using CarSalesApi.Infrastructure;
 using Microsoft.OpenApi.Models;
@@ -48,6 +49,9 @@ namespace CarSalesApi.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSalesApi v1");
             });
 
+            // Middleware de errores
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            
             // Configure HTTP pipeline
             app.UseRouting();
 
