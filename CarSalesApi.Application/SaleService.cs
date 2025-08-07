@@ -3,8 +3,15 @@ using CarSalesApi.Infrastructure;
 
 namespace CarSalesApi.Application
 {
+    /// <summary>
+    /// Service responsible for handling sales-related operations in the car sales application.
+    /// </summary>
     public class SaleService(ISaleRepository repository) : ISaleService
     {
+        /// <summary>
+        /// Creates a sale record based on the provided sale request details.
+        /// </summary>
+        /// <param name="request">The request containing details such as the car type and distribution center ID for the sale.</param>
         public void CreateSale(CreateSaleRequest request)
         {
             var car = new CarModel(request.CarType);
@@ -19,18 +26,32 @@ namespace CarSalesApi.Application
             repository.AddSale(sale);
         }
 
+
+        /// <summary>
+        /// Calculates the total sales volume across all distribution centers.
+        /// </summary>
+        /// <returns>The total sales volume as a decimal value.</returns>
         public decimal GetTotalSalesVolume()
         {
             var sales = repository.GetAllSales();
             return sales.Sum(s => s.SalePrice);
         }
 
+        /// <summary>
+        /// Calculates the total sales volume for a specific distribution center.
+        /// </summary>
+        /// <param name="centerId">The unique identifier of the distribution center.</param>
+        /// <returns>The total sales volume as a decimal value for the specified distribution center.</returns>
         public decimal GetSalesVolumeByCenter(int centerId)
         {
             var sales = repository.GetSalesByCenter(centerId);
             return sales.Sum(s => s.SalePrice);
         }
 
+        /// <summary>
+        /// Calculates the percentage of car sales by car type for each distribution center.
+        /// </summary>
+        /// <returns>A dictionary where the key is the distribution center ID, and the value is another dictionary summarizing the percentage of sales for each car type within the center.</returns>
         public Dictionary<int, Dictionary<CarType, double>> GetPercentageByCenter()
         {
             var allSales = repository.GetAllSales();
