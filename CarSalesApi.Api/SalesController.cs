@@ -5,15 +5,8 @@ namespace CarSalesApi.API
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SalesController : ControllerBase
+    public class SalesController(ISaleService saleService) : ControllerBase
     {
-        private readonly ISaleService _saleService;
-
-        public SalesController(ISaleService saleService)
-        {
-            _saleService = saleService;
-        }
-
         /// <summary>
         /// Creates a new sale entry in the system.
         /// </summary>
@@ -22,7 +15,7 @@ namespace CarSalesApi.API
         [HttpPost]
         public IActionResult CreateSale([FromBody] CreateSaleRequest request)
         {
-            _saleService.CreateSale(request);
+            saleService.CreateSale(request);
             return Ok();
         }
 
@@ -30,10 +23,10 @@ namespace CarSalesApi.API
         /// Retrieves the total sales volume across all distribution centers.
         /// </summary>
         /// <returns>Returns an IActionResult containing the total sales volume.</returns>
-        [HttpGet("total-volume")]
+        [HttpGet("volume/total")]
         public IActionResult GetTotalSalesVolume()
         {
-            var total = _saleService.GetTotalSalesVolume();
+            var total = saleService.GetTotalSalesVolume();
             return Ok(total);
         }
 
@@ -42,10 +35,10 @@ namespace CarSalesApi.API
         /// </summary>
         /// <param name="centerId">The identifier of the distribution center whose sales volume is to be retrieved.</param>
         /// <returns>Returns an IActionResult containing the sales volume for the specified distribution center.</returns>
-        [HttpGet("volume-by-center/{centerId}")]
+        [HttpGet("volume/center/{centerId}")]
         public IActionResult GetSalesVolumeByCenter(int centerId)
         {
-            var total = _saleService.GetSalesVolumeByCenter(centerId);
+            var total = saleService.GetSalesVolumeByCenter(centerId);
             return Ok(total);
         }
 
@@ -53,10 +46,10 @@ namespace CarSalesApi.API
         /// Retrieves the percentage distribution of sales by car type for each distribution center.
         /// </summary>
         /// <returns>Returns an IActionResult containing a dictionary where the keys represent distribution center IDs, and the values contain nested dictionaries of car types and their respective sales percentages.</returns>
-        [HttpGet("percentage-by-center")]
+        [HttpGet("percentage/center")]
         public IActionResult GetPercentageByCenter()
         {
-            var result = _saleService.GetPercentageByCenter();
+            var result = saleService.GetPercentageByCenter();
             return Ok(result);
         }
     }
