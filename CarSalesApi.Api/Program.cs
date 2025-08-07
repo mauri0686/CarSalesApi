@@ -1,3 +1,5 @@
+using CarSalesApi.Application;
+using CarSalesApi.Infrastructure;
 using Microsoft.OpenApi.Models;
 
 namespace CarSalesApi.API
@@ -29,6 +31,12 @@ namespace CarSalesApi.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarSalesApi", Version = "v1" });
             });
+
+            // Register dependencies
+            builder.Services.AddScoped<ILogger<ExecutionTimeFilter>, Logger<ExecutionTimeFilter>>();
+            builder.Services.AddScoped<ExecutionTimeFilter>();
+            builder.Services.AddSingleton<ISaleRepository, InMemorySaleRepository>();
+            builder.Services.AddScoped<ISaleService, SaleService>();
         }
 
         private static void Configure(WebApplication app)

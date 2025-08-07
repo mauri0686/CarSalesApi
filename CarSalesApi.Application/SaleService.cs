@@ -1,20 +1,10 @@
 using CarSalesApi.Domain;
 using CarSalesApi.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CarSalesApi.Application
 {
-    public class SaleService : ISaleService
+    public class SaleService(ISaleRepository repository) : ISaleService
     {
-        private readonly InMemorySaleRepository _repository;
-
-        public SaleService(InMemorySaleRepository repository)
-        {
-            _repository = repository;
-        }
-
         public void CreateSale(CreateSaleRequest request)
         {
             var car = new CarModel(request.CarType);
@@ -26,24 +16,24 @@ namespace CarSalesApi.Application
                 SaleDate = DateTime.UtcNow,
                 SalePrice = car.GetSalePrice()
             };
-            _repository.AddSale(sale);
+            repository.AddSale(sale);
         }
 
         public decimal GetTotalSalesVolume()
         {
-            var sales = _repository.GetAllSales();
+            var sales = repository.GetAllSales();
             return sales.Sum(s => s.SalePrice);
         }
 
         public decimal GetSalesVolumeByCenter(int centerId)
         {
-            var sales = _repository.GetSalesByCenter(centerId);
+            var sales = repository.GetSalesByCenter(centerId);
             return sales.Sum(s => s.SalePrice);
         }
 
         public Dictionary<int, Dictionary<CarType, double>> GetPercentageByCenter()
         {
-            var allSales = _repository.GetAllSales();
+            var allSales = repository.GetAllSales();
             var totalSales = allSales.Count();
 
             if (totalSales == 0)
