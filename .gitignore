@@ -6,3 +6,4 @@ packages/
 .vs/ .vscode/
 *.dll *.exe
 appsettings.json
+*.xml
