@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/21672501/README.md)
 # 🚗 Car Sales API
 
 API REST desarrollada en **.NET 8.0** para gestionar ventas de automóviles y generar reportes.
@@ -11,6 +10,7 @@ API REST desarrollada en **.NET 8.0** para gestionar ventas de automóviles y ge
 - **Clean Architecture**, **Repository Pattern**, **Inyección de dependencias**
 - **Datos mockeados en memoria**
 - **Medición de tiempos de ejecución por endpoint**
+- **Middleware de manejo de errores global**
 
 ---
 
@@ -83,7 +83,15 @@ dotnet test tests/CarSalesApi.Tests
 - El modelo **"Sport"** incluye un impuesto extra del **7%**
 - Se mockean datos de venta al iniciar
 - Se mide tiempo de ejecución por endpoint en el log
+- Se agregó un **middleware global** para manejo centralizado de errores. Si se envían datos inválidos (por ejemplo, `carType` fuera de rango o centro inexistente), la API devolverá errores en formato JSON, como este:
+
+```json
+{
+  "statusCode": 500,
+  "message": "Centro de distribución inválido."
+}
+```
 
 ---
 
-> Sin base de datos, sin frontend, arquitectura limpia, comentarios clave y pruebas incluidas.
+> Sin base de datos, sin frontend, arquitectura limpia, comentarios clave, pruebas incluidas y manejo profesional de errores.
