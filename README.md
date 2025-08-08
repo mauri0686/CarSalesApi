@@ -9,7 +9,7 @@ API REST desarrollada en **.NET 8.0** para gestionar ventas de automóviles y ge
 - **xUnit** + **Moq** + **FluentAssertions** (pruebas unitarias)
 - **Clean Architecture**, **Repository Pattern**, **Inyección de dependencias**
 - **Datos mockeados en memoria**
-- **Medición de tiempos de ejecución por endpoint**
+- **Sistema de medición y registro de tiempos de ejecución**
 - **Middleware de manejo de errores global**
 
 ---
