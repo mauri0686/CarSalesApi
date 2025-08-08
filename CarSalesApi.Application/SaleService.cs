@@ -1,26 +1,34 @@
 using CarSalesApi.Domain;
 using CarSalesApi.Infrastructure;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace CarSalesApi.Application
 {
     /// <summary>
     /// Service responsible for handling sales-related operations in the car sales application.
     /// </summary>
-    public class SaleService(ISaleRepository repository, ILogger<SaleService> logger) : ISaleService
+    public class SaleService : ISaleService
     {
+        private readonly ISaleRepository _repository;
+        private readonly ILogger<SaleService> _logger;
+        private readonly ServiceExecutionTimeInterceptor _interceptor;
         private static readonly int[] ValidDistributionCenterIds = [1, 2, 3, 4];
+
+        public SaleService(ISaleRepository repository, ILogger<SaleService> logger)
+        {
+            _repository = repository;
+            _logger = logger;
+            _interceptor = new ServiceExecutionTimeInterceptor(logger);
+        }
 
         /// <summary>
         /// Creates a sale record based on the provided sale request details.
         /// </summary>
         /// <param name="request">The request containing details such as the car type and distribution center ID for the sale.</param>
+        [ServiceExecutionTime]
         public void CreateSale(CreateSaleRequest request)
         {
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
+            _interceptor.Execute(() => {
                 // Validación de parámetros
                 if (!Enum.IsDefined(typeof(CarType), request.CarType))
                     throw new ArgumentException("Tipo de vehículo inválido.");
@@ -37,66 +45,45 @@ namespace CarSalesApi.Application
                     SaleDate = DateTime.UtcNow,
                     SalePrice = car.GetSalePrice()
                 };
-                repository.AddSale(sale);
-            }
-            finally
-            {
-                stopwatch.Stop();
-                logger.LogInformation("Service method {MethodName} executed in {ElapsedMilliseconds} ms", 
-                    nameof(CreateSale), stopwatch.ElapsedMilliseconds);
-            }
+                _repository.AddSale(sale);
+            }, nameof(CreateSale));
         }
 
         /// <summary>
         /// Calculates the total sales volume across all distribution centers.
         /// </summary>
+        [ServiceExecutionTime]
         public decimal GetTotalSalesVolume()
         {
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
-                var sales = repository.GetAllSales();
+            return _interceptor.Execute(() => {
+                var sales = _repository.GetAllSales();
                 return sales.Sum(s => s.SalePrice);
-            }
-            finally
-            {
-                stopwatch.Stop();
-                logger.LogInformation("Service method {MethodName} executed in {ElapsedMilliseconds} ms", 
-                    nameof(GetTotalSalesVolume), stopwatch.ElapsedMilliseconds);
-            }
+            }, nameof(GetTotalSalesVolume));
         }
 
         /// <summary>
         /// Calculates the total sales volume for a specific distribution center.
         /// </summary>
+        [ServiceExecutionTime]
         public decimal GetSalesVolumeByCenter(int centerId)
         {
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
+            return _interceptor.Execute(() => {
                 if (!ValidDistributionCenterIds.Contains(centerId))
                     throw new ArgumentException("Centro de distribución inválido.");
 
-                var sales = repository.GetSalesByCenter(centerId);
+                var sales = _repository.GetSalesByCenter(centerId);
                 return sales.Sum(s => s.SalePrice);
-            }
-            finally
-            {
-                stopwatch.Stop();
-                logger.LogInformation("Service method {MethodName} executed in {ElapsedMilliseconds} ms", 
-                    nameof(GetSalesVolumeByCenter), stopwatch.ElapsedMilliseconds);
-            }
+            }, nameof(GetSalesVolumeByCenter));
         }
 
         /// <summary>
         /// Calculates the percentage of car sales by car type for each distribution center.
         /// </summary>
+        [ServiceExecutionTime]
         public Dictionary<int, Dictionary<CarType, double>> GetPercentageByCenter()
         {
-            var stopwatch = Stopwatch.StartNew();
-            try
-            {
-                var allSales = repository.GetAllSales();
+            return _interceptor.Execute(() => {
+                var allSales = _repository.GetAllSales();
                 var totalSales = allSales.Count();
 
                 if (totalSales == 0)
@@ -120,13 +107,7 @@ namespace CarSalesApi.Application
                 }
 
                 return result;
-            }
-            finally
-            {
-                stopwatch.Stop();
-                logger.LogInformation("Service method {MethodName} executed in {ElapsedMilliseconds} ms", 
-                    nameof(GetPercentageByCenter), stopwatch.ElapsedMilliseconds);
-            }
+            }, nameof(GetPercentageByCenter));
         }
     }
 }
