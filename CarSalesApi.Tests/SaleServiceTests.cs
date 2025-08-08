@@ -1,18 +1,21 @@
 using CarSalesApi.Application;
 using CarSalesApi.Domain;
 using CarSalesApi.Infrastructure;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace CarSalesApi.Tests
 {
     public class SaleServiceTests
     {
         private readonly InMemorySaleRepository _repository;
+        private readonly Mock<ILogger<SaleService>> _loggerMock = new Mock<ILogger<SaleService>>();
         private readonly SaleService _service;
 
         public SaleServiceTests()
         {
             _repository = new InMemorySaleRepository();
-            _service = new SaleService(_repository);
+            _service = new SaleService(_repository, _loggerMock.Object);;
         }
 
         [Fact]
