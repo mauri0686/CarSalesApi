@@ -24,9 +24,17 @@ namespace CarSalesApi.Application
             _logger = logger;
         }
 
+        /// <summary>
+        /// Executes a given method while measuring its execution time and logging the result.
+        /// </summary>
+        /// <typeparam name="T">The return type of the method being executed.</typeparam>
+        /// <param name="method">The method to execute.</param>
+        /// <param name="methodName">The name of the method being executed, typically used for logging purposes.</param>
+        /// <returns>The result of the executed method.</returns>
         public T Execute<T>(Func<T> method, string methodName)
         {
             var stopwatch = Stopwatch.StartNew();
+
             try
             {
                 return method();
@@ -39,9 +47,15 @@ namespace CarSalesApi.Application
             }
         }
 
+        /// <summary>
+        /// Executes a given method while measuring its execution time and logging the result.
+        /// </summary>
+        /// <param name="method">The method to execute.</param>
+        /// <param name="methodName">The name of the method being executed, typically used for logging purposes.</param>
         public void Execute(Action method, string methodName)
         {
             var stopwatch = Stopwatch.StartNew();
+
             try
             {
                 method();
