@@ -24,7 +24,7 @@ URL local (ejemplo): http://localhost:5xxx/
 
 Importante: para que el dashboard funcione, la API debe estar levantada y accesible desde el navegador. Asegúrate de que el host/puerto coincidan con los configurados en el frontend.
 
-![img.png](CarSales.Web/Shared/img.png)
+![Dashboard.jpg](CarSales.Web/Shared/Dashboard.jpg)
 
 ## ▶️ Cómo Ejecutar
 
