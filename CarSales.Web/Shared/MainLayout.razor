@@ -12,11 +12,6 @@
         <MudText Typo="Typo.h6" Class="me-4">CarSales</MudText>
         <MudText Typo="Typo.subtitle2" Class="d-none d-md-inline">Dashboard de ventas</MudText>
         <MudSpacer />
-        <MudSwitch T="bool" @bind-Checked="_isDarkMode"
-                   Color="Color.Default"
-                   CheckedIcon="@Icons.Material.Filled.DarkMode"
-                   UncheckedIcon="@Icons.Material.Filled.LightMode"
-                   Class="me-2" />
         <MudButton Variant="Variant.Outlined"
                    Color="Color.Inherit"
                    Href="/swagger"
@@ -62,7 +57,6 @@
                Elevation="1"
                Color="Color.Surface"
                ClipMode="DrawerClipMode.Always">
-        <CarSalesNavMenu />
     </MudDrawer>
 
     <MudMainContent>

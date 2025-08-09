@@ -127,7 +127,18 @@
 
                     <MudExpansionPanels Class="mt-3">
                         <MudExpansionPanel Text="Ver datos crudos">
-                            <MudCodeHighlight Code="@_rawJson" Language="Language.json" />
+                            @if (!string.IsNullOrWhiteSpace(_rawJson))
+                            {
+                                <MudPaper Elevation="0" Class="pa-2">
+                                    <pre class="code-raw">@_rawJson</pre>
+                                </MudPaper>
+                            }
+                            else
+                            {
+                                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true">
+                                    No hay datos crudos para mostrar.
+                                </MudAlert>
+                            }
                         </MudExpansionPanel>
                     </MudExpansionPanels>
                 }

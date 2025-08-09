@@ -102,3 +102,16 @@ a {
 #blazor-error-ui a.dismiss:hover {
     background: rgba(0, 0, 0, 0.06);
 }
+
+/* Raw data code block */
+pre.code-raw {
+    background: #0b1020;
+    color: #e5e7eb;
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
