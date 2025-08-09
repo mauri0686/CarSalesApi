@@ -14,6 +14,16 @@ API REST desarrollada en **.NET 8.0** para gestionar ventas de automóviles y ge
 
 ---
 
+## 🌐 Web de Ventas (Dashboard)
+Interfaz web incluida en la solución para visualizar métricas y operar sobre las ventas.
+
+- Página de inicio (Home) con indicadores como “Ventas totales”
+- Accesos rápidos a acciones comunes
+
+URL local (ejemplo): http://localhost:5xxx/
+
+![img.png](img.png)
+
 ## ▶️ Cómo Ejecutar
 
 ### Requisitos

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CarSalesApi.Application\CarSalesApi.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

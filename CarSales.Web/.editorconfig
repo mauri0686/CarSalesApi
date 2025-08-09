@@ -1,0 +1,5 @@
+﻿root = true
+
+[*.razor]
+# Suprime advertencias del analizador de MudBlazor MUD0002 en componentes .razor
+dotnet_diagnostic.MUD0002.severity = none

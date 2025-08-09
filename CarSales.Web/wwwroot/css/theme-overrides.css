@@ -115,3 +115,207 @@ pre.code-raw {
     line-height: 1.4;
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
+
+/* Dark mode improvements: make everything consistent and readable */
+.mud-theme-dark {
+    --brand-bg: #0b1220;
+    --brand-surface: #1e293b;
+    --brand-surface-alt: #111827;
+    --brand-text: #e5e7eb;
+    --brand-text-secondary: #cbd5e1;
+    color-scheme: dark;
+    background-color: var(--brand-bg) !important;
+    color: var(--brand-text) !important;
+}
+
+/* Ensure the whole layout inherits the dark background */
+.mud-theme-dark .mud-layout,
+.mud-theme-dark .mud-main-content,
+.mud-theme-dark .mud-container {
+    background-color: var(--brand-bg) !important;
+    color: var(--brand-text) !important;
+}
+
+/* Typography readability */
+.mud-theme-dark .mud-typography,
+.mud-theme-dark .mud-text,
+.mud-theme-dark .mud-typography-body1,
+.mud-theme-dark .mud-typography-subtitle2,
+.mud-theme-dark .mud-typography-h6,
+.mud-theme-dark .mud-title,
+.mud-theme-dark .mud-subtitle,
+.mud-theme-dark .mud-subtitle2 {
+    color: var(--brand-text) !important;
+}
+.mud-theme-dark .mud-text-secondary,
+.mud-theme-dark .mud-secondary-text {
+    color: var(--brand-text-secondary) !important;
+}
+
+/* AppBar/Header: readable in dark */
+.mud-theme-dark .mud-appbar,
+.mud-theme-dark .mud-appbar.mud-appbar-primary,
+.mud-theme-dark .mud-toolbar {
+    background-color: var(--brand-surface-alt) !important;
+    color: var(--brand-text) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Drawer & navigation */
+.mud-theme-dark .mud-drawer,
+.mud-theme-dark .mud-drawer-paper {
+    background-color: var(--brand-surface-alt) !important;
+    color: var(--brand-text) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Surfaces: papers, cards, tables (modules in center) */
+.mud-theme-dark .mud-paper,
+.mud-theme-dark .mud-card,
+.mud-theme-dark .mud-table,
+.mud-theme-dark .mud-table-container {
+    background-color: var(--brand-surface) !important;
+    color: var(--brand-text) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Table head readability */
+.mud-theme-dark .mud-table thead th {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: var(--brand-text) !important;
+}
+
+/* Dividers */
+.mud-theme-dark .mud-divider {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Inputs/selects */
+.mud-theme-dark .mud-input-root,
+.mud-theme-dark .mud-input,
+.mud-theme-dark .mud-select {
+    color: var(--brand-text) !important;
+    background-color: var(--brand-surface-alt) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+.mud-theme-dark .mud-input-label {
+    color: var(--brand-text-secondary) !important;
+}
+
+/* Alerts */
+.mud-theme-dark .mud-alert {
+    background-color: var(--brand-surface-alt) !important;
+    color: var(--brand-text) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Links in dark */
+.mud-theme-dark a {
+    color: #93c5fd; /* sky-300 */
+}
+
+/* Primary accents in dark keep the same palette */
+.mud-theme-dark .mud-button-filled-primary {
+    background-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+.mud-theme-dark .mud-button-outlined-primary {
+    border-color: var(--brand-primary) !important;
+    color: var(--brand-primary) !important;
+}
+.mud-theme-dark .mud-button-text-primary {
+    color: var(--brand-primary) !important;
+}
+
+/* Chips */
+.mud-theme-dark .mud-chip {
+    background-color: #243447; /* slightly lighter than surface-alt */
+    color: var(--brand-text) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Error bar also dark */
+.mud-theme-dark #blazor-error-ui {
+    background: var(--brand-surface-alt) !important;
+    color: var(--brand-text) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Code block in dark */
+.mud-theme-dark pre.code-raw {
+    background: #0b1020;
+    color: #e5e7eb;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Fix "Ventas totales" styling in header */
+header #totalSales {
+    color: inherit !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+header .badge {
+    background: transparent !important;
+    border: 0 !important;
+    color: inherit !important;
+}
+
+/* Neutralize MudChip in header (removes red border/background) */
+header .mud-chip {
+    background: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+}
+header .mud-chip .mud-chip-content {
+    color: inherit !important;
+}
+header .mud-chip.mud-chip-outlined,
+header .mud-chip.mud-chip-outlined.mud-chip-color-primary,
+header .mud-chip.mud-chip-outlined.mud-chip-color-secondary,
+header .mud-chip.mud-chip-outlined.mud-chip-color-info,
+header .mud-chip.mud-chip-outlined.mud-chip-color-success,
+header .mud-chip.mud-chip-outlined.mud-chip-color-warning,
+header .mud-chip.mud-chip-outlined.mud-chip-color-error {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+header .mud-chip:hover,
+header .mud-chip:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Stronger, wide-scoped overrides for chips in top bars */
+.mud-appbar .mud-chip,
+.navbar .mud-chip,
+.topbar .mud-chip,
+.app-header .mud-chip {
+    background: transparent !important;
+    color: inherit !important;
+    box-shadow: none !important;
+}
+.mud-appbar .mud-chip.mud-chip-outlined,
+.navbar .mud-chip.mud-chip-outlined,
+.topbar .mud-chip.mud-chip-outlined,
+.app-header .mud-chip.mud-chip-outlined {
+    border-color: transparent !important;
+    border-width: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.mud-appbar .mud-chip .mud-chip-content,
+.navbar .mud-chip .mud-chip-content,
+.topbar .mud-chip .mud-chip-content,
+.app-header .mud-chip .mud-chip-content {
+    color: inherit !important;
+}
+
+/* Global fallback: neutralize primary outlined chip border */
+.mud-chip.mud-chip-outlined.mud-chip-color-primary {
+    border-color: transparent !important;
+}
