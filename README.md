@@ -22,7 +22,9 @@ Interfaz web incluida en la solución para visualizar métricas y operar sobre l
 
 URL local (ejemplo): http://localhost:5xxx/
 
-![img.png](img.png)
+Importante: para que el dashboard funcione, la API debe estar levantada y accesible desde el navegador. Asegúrate de que el host/puerto coincidan con los configurados en el frontend.
+
+![img.png](CarSales.Web/Shared/img.png)
 
 ## ▶️ Cómo Ejecutar
 
