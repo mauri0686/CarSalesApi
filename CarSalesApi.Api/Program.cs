@@ -27,6 +27,18 @@ namespace CarSalesApi.API
             // Add controllers
             builder.Services.AddControllers();
 
+            // CORS policy to allow calls from web clients
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
             // Add Swagger for API documentation
             builder.Services.AddSwaggerGen(c =>
             {
@@ -49,11 +61,18 @@ namespace CarSalesApi.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarSalesApi v1");
             });
 
+            // Servir SPA y archivos estáticos desde wwwroot (index.html por defecto)
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             // Middleware de errores
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             
             // Configure HTTP pipeline
             app.UseRouting();
+
+            // Enable CORS
+            app.UseCors("AllowAll");
 
             // Add authorization middleware
             app.UseAuthorization();

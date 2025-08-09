@@ -1,0 +1,21 @@
+﻿@page "/percentages"
+@using MudBlazor
+@inject HttpClient Http
+
+<MudPaper Class="pa-4">
+    <MudText Typo="Typo.h5">Porcentaje de Ventas por Centro</MudText>
+    @if (data == null)
+    {
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    }
+    else
+    {
+        <MudChart ChartType="ChartType.Bar"
+                  Labels="@labels"
+                  ChartSeries="@(new List<ChartSeries>
+                  {
+                      new() { Name = "Sedan", Data = sedan },
+                      new() { Name = "SUV",   Data = suv }
+                  })" />
+    }
+</MudPaper>

@@ -1,0 +1,138 @@
+﻿@page "/"
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+
+    <!-- Header / Hero -->
+    <MudPaper Elevation="0" Class="pa-4 mb-6">
+        <MudGrid>
+            <MudItem xs="12" md="8">
+                <MudText Typo="Typo.h4" Class="mb-1">Car Sales Dashboard</MudText>
+                <MudText Typo="Typo.subtitle2" Class="mud-text-secondary">
+                    Registrar ventas y visualizar porcentajes en una sola pantalla.
+                </MudText>
+            </MudItem>
+            <MudItem xs="12" md="4" Class="d-flex align-center justify-end">
+                <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined" Class="me-2">
+                    Ventas totales: @(_totalSalesDisplay)
+                </MudChip>
+                <MudButton Variant="Variant.Outlined" Color="Color.Info" Href="/swagger" Target="_blank" StartIcon="@Icons.Material.Filled.OpenInNew">
+                    API Docs
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <MudGrid GutterSize="GutterSize.Large">
+        <!-- Registrar venta -->
+        <MudItem xs="12" lg="4">
+            <MudPaper Class="pa-4">
+                <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-3" Spacing="1">
+                    <MudIcon Icon="@Icons.Material.Filled.AddCircle" Color="Color.Warning" Size="Size.Large" />
+                    <MudText Typo="Typo.h6">Registrar venta</MudText>
+                </MudStack>
+
+                <EditForm Model="@_dummyModel" OnValidSubmit="AddSaleAsync">
+                    <DataAnnotationsValidator />
+                    <MudStack Spacing="2">
+                        <MudSelect T="int?" Label="Modelo" @bind-Value="_carType" Required="true" RequiredError="Seleccione un modelo.">
+                            <MudSelectItem T="int?" Value="1">Sedan</MudSelectItem>
+                            <MudSelectItem T="int?" Value="2">SUV</MudSelectItem>
+                            <MudSelectItem T="int?" Value="3">OffRoad</MudSelectItem>
+                            <MudSelectItem T="int?" Value="4">Sport</MudSelectItem>
+                        </MudSelect>
+
+                        <MudSelect T="int?" Label="Centro de distribución" @bind-Value="_centerId" Required="true" RequiredError="Seleccione un centro.">
+                            <MudSelectItem T="int?" Value="1">Centro 1</MudSelectItem>
+                            <MudSelectItem T="int?" Value="2">Centro 2</MudSelectItem>
+                            <MudSelectItem T="int?" Value="3">Centro 3</MudSelectItem>
+                            <MudSelectItem T="int?" Value="4">Centro 4</MudSelectItem>
+                        </MudSelect>
+
+                        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true">
+                            Tip: el modelo Sport incluye un impuesto extra del 7%.
+                        </MudAlert>
+
+                        <MudButton Disabled="_saving" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" Class="mt-2" StartIcon="@Icons.Material.Filled.CheckCircle">
+                            @if (_saving)
+                            {
+                                <MudProgressCircular Indeterminate="true" Size="Size.Small" Class="me-2" />
+                                <span>Guardando…</span>
+                            }
+                            else
+                            {
+                                <span>Agregar venta</span>
+                            }
+                        </MudButton>
+                    </MudStack>
+                </EditForm>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Porcentajes -->
+        <MudItem xs="12" lg="8">
+            <MudPaper Class="pa-4">
+                <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="mb-3">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+                        <MudIcon Icon="@Icons.Material.Filled.PieChart" Color="Color.Info" Size="Size.Large" />
+                        <MudText Typo="Typo.h6">Porcentaje por centro</MudText>
+                    </MudStack>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="LoadPercentagesAsync" Disabled="_loadingPercentages" StartIcon="@Icons.Material.Filled.Refresh">
+                        Refrescar
+                    </MudButton>
+                </MudStack>
+
+                @if (_loadingPercentages)
+                {
+                    <div class="d-flex align-center justify-center" style="min-height: 220px;">
+                        <MudProgressCircular Indeterminate="true" Size="Size.Large" />
+                    </div>
+                }
+                else if (_centers is null || _centers.Count == 0)
+                {
+                    <MudAlert Severity="Severity.Warning">No hay datos para mostrar.</MudAlert>
+                }
+                else
+                {
+                    <MudGrid GutterSize="GutterSize.Small">
+                        @foreach (var c in _centers)
+                        {
+                            <MudItem xs="12" md="6">
+                                <MudPaper Class="pa-3">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="mb-2">
+                                        <MudText Typo="Typo.subtitle1">@c.DisplayName</MudText>
+                                        <MudChip T="string" Color="Color.Info" Variant="Variant.Outlined">@Math.Round(c.Data.Sum(), 0)%</MudChip>
+                                    </MudStack>
+                                    <MudGrid>
+                                        <MudItem xs="6">
+                                            <MudChart ChartType="ChartType.Donut"
+                                                      InputData="@c.Data"
+                                                      Labels="@c.Labels"
+                                                      Height="200px" />
+                                        </MudItem>
+                                        <MudItem xs="6">
+                                            @for (var i = 0; i < c.Labels.Length; i++)
+                                            {
+                                                <MudStack Row="true" Justify="Justify.SpaceBetween" Class="mb-1">
+                                                    <MudText Class="mud-text-secondary">@c.Labels[i]</MudText>
+                                                    <MudText Typo="Typo.subtitle2">@Math.Round(c.Data[i], 1)%</MudText>
+                                                </MudStack>
+                                            }
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    </MudGrid>
+
+                    <MudExpansionPanels Class="mt-3">
+                        <MudExpansionPanel Text="Ver datos crudos">
+                            <MudCodeHighlight Code="@_rawJson" Language="Language.json" />
+                        </MudExpansionPanel>
+                    </MudExpansionPanels>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+

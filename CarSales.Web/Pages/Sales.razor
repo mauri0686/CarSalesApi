@@ -1,0 +1,29 @@
+﻿@page "/sales"
+@inject HttpClient Http
+
+<h3>Ventas por Centro</h3>
+
+@if (sales == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Centro</th>
+            <th>Ventas</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in sales)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

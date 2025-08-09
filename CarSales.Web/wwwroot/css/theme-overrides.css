@@ -1,0 +1,104 @@
+﻿/* Harmonious theme overrides */
+:root {
+    --brand-primary: #5C6BC0;   /* Indigo 400 */
+    --brand-secondary: #26A69A; /* Teal 400 */
+    --brand-text: #1F2937;      /* Slate 800 */
+    --brand-bg: #F5F7FB;        /* Soft background */
+}
+
+/* Global background and text */
+body {
+    background-color: var(--brand-bg);
+    color: var(--brand-text);
+}
+
+/* Clean AppBar */
+.appbar-clean {
+    background-color: #ffffff !important;
+    color: var(--brand-text) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    backdrop-filter: saturate(180%) blur(10px);
+}
+
+/* Even if AppBar uses Primary, keep it clean (avoid harsh red) */
+.mud-appbar.mud-appbar-primary {
+    background-color: #ffffff !important;
+    color: var(--brand-text) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Hide left drawer/nav and ensure content is full width */
+.mud-drawer {
+    display: none !important;
+}
+.mud-main-content {
+    margin-left: 0 !important;
+}
+
+/* Softer primary across common components */
+.mud-button-filled-primary {
+    background-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+.mud-button-outlined-primary {
+    border-color: var(--brand-primary) !important;
+    color: var(--brand-primary) !important;
+}
+.mud-button-text-primary {
+    color: var(--brand-primary) !important;
+}
+
+.mud-chip-color-primary {
+    background-color: var(--brand-primary) !important;
+    color: #fff !important;
+}
+
+/* Links */
+a {
+    color: var(--brand-primary);
+}
+
+/* Typography tweaks */
+.mud-typography-h6,
+.mud-typography-subtitle2 {
+    color: var(--brand-text);
+}
+
+/* Cards/panels refinement */
+.mud-paper {
+    border-radius: 12px;
+}
+
+/* Restyle Blazor error UI to fit the design */
+#blazor-error-ui {
+    background: #ffffff !important;
+    color: var(--brand-text) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06) !important;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem !important;
+    font-size: 0.95rem;
+}
+
+/* Style the links as friendly actions */
+#blazor-error-ui a.reload {
+    display: inline-block;
+    background-color: var(--brand-primary);
+    color: #fff !important;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-left: 12px;
+    text-decoration: none;
+}
+
+#blazor-error-ui a.dismiss {
+    display: inline-block;
+    color: var(--brand-text) !important;
+    padding: 4px 8px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+#blazor-error-ui a.dismiss:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
